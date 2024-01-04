@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Target : MonoBehaviour
@@ -8,7 +11,7 @@ public class Target : MonoBehaviour
     private Rigidbody targetRb;
     private int pointValue;
     private Game_Manager manager;
-
+    
     public ParticleSystem particlesExplosion;
 
     private float minSpeed = 14f;
@@ -21,6 +24,7 @@ public class Target : MonoBehaviour
 
         manager = GameObject.Find("Game Manager").GetComponent<Game_Manager>();
         targetRb = GetComponent<Rigidbody>();
+        
         //particlesExplosion = GetComponent<ParticleSystem>();
 
 
@@ -71,21 +75,25 @@ public class Target : MonoBehaviour
     }
     void PointManager()
     {
-        if (gameObject.CompareTag("Good1"))
+        if (manager.isGameOver == false){
+
+        }
+   
+        if (gameObject.CompareTag("Good1") && manager.isGameOver == false)
         {
             SendPoint(1);
         }
-        if (gameObject.CompareTag("Good2"))
+        if (gameObject.CompareTag("Good2") && manager.isGameOver == false)
         {
             SendPoint(3);
         }
-        if (gameObject.CompareTag("Good3"))
+        if (gameObject.CompareTag("Good3") && manager.isGameOver == false)
         {
             SendPoint(5);
         }
         if (gameObject.CompareTag("Bad1"))
         {
-            SendPoint(0);
+            manager.isGameOver = true;
         }
     }
 }
