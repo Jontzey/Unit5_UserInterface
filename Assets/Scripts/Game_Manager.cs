@@ -28,13 +28,16 @@ public class Game_Manager : MonoBehaviour
             yield return new WaitForSeconds(spawnRate);
             int index = Random.Range(0, gameObjects.Count);
             Instantiate(gameObjects[index]);
-            UpdateScore(5);
+            
         }
     }
 
-    void UpdateScore(int scoreToAdd)
+    public void UpdateScore(int scoreToAdd)
     {
         score = score + scoreToAdd;
-        scoreText.text = "Score: " + score;
+                scoreText.text = "Score: " + score;
     }
+    
+        
+    
 }

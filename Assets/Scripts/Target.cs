@@ -6,8 +6,10 @@ public class Target : MonoBehaviour
 {
    
     private Rigidbody targetRb;
-    public float forceUpwards = 10;
+    private int pointValue;
+    private Game_Manager manager;
 
+    public ParticleSystem particlesExplosion;
 
     private float minSpeed = 14f;
     private float maxSpeed = 20f;
@@ -16,7 +18,12 @@ public class Target : MonoBehaviour
     private float yRange = -6;
     void Start()
     {
-        targetRb = GetComponent<Rigidbody>(); 
+
+        manager = GameObject.Find("Game Manager").GetComponent<Game_Manager>();
+        targetRb = GetComponent<Rigidbody>();
+        //particlesExplosion = GetComponent<ParticleSystem>();
+
+
         targetRb.AddForce(RandomForce(), ForceMode.Impulse);
         targetRb.AddTorque(RandomTorque(),RandomTorque(),RandomTorque(), ForceMode.Impulse);
         transform.position = RandomSpawnPos();
@@ -26,8 +33,6 @@ public class Target : MonoBehaviour
             Destroy(targetRb);
         }
     }
-
-   
     void Update()
     {
        
@@ -54,7 +59,33 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
+        PointManager();
         Destroy(gameObject);
-        
+        particlesExplosion.Play();
+        Instantiate(particlesExplosion, transform.position, Quaternion.identity);
+    }
+
+    void SendPoint(int value)
+    {
+        manager.UpdateScore(pointValue + value);
+    }
+    void PointManager()
+    {
+        if (gameObject.CompareTag("Good1"))
+        {
+            SendPoint(1);
+        }
+        if (gameObject.CompareTag("Good2"))
+        {
+            SendPoint(3);
+        }
+        if (gameObject.CompareTag("Good3"))
+        {
+            SendPoint(5);
+        }
+        if (gameObject.CompareTag("Bad1"))
+        {
+            SendPoint(0);
+        }
     }
 }
